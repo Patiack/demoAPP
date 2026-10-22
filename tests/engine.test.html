@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>引擎测试</title>
+  <style>
+    body { font: 16px/1.6 "Microsoft YaHei", system-ui, sans-serif; margin: 24px; background: #f6f2e9; color: #1b2a24; }
+    h1 { font-size: 1.3rem; }
+    pre { white-space: pre-wrap; background: #fff; border: 1px solid #ddd; border-radius: 12px; padding: 16px; }
+    .summary { font-weight: 700; margin-bottom: 12px; }
+    .pass { color: #0f6b50; }
+    .fail { color: #a8261c; }
+  </style>
+</head>
+<body>
+  <h1>安心 · 风险识别引擎测试</h1>
+  <p class="summary" id="summary">运行中…</p>
+  <pre id="out"></pre>
+
+  <script src="../js/engine.js"></script>
+  <script>
+    (function () {
+      var cases = [
+        {
+          name: '冒充公检法 + 安全账户',
+          text: '您好，我是市公安局的，您涉嫌洗钱，请把钱转到安全账户，不要告诉家人。',
+          level: 'high'
+        },
+        {
+          name: '客服 + 屏幕共享 + 验证码',
+          text: '我是平台客服，您的百万保障要扣费，请下载会议软件并共享屏幕，再把验证码报给我。',
+          level: 'high'
+        },
+        {
+          name: '刷单返利',
+          text: '在家做任务日赚300，先垫付后返利，加微信结算。',
+          level: 'high'
+        },
+        {
+          name: '冒充领导借钱并要求保密',
+          text: '我是你领导，这是我的新号码。先帮我转2万元应急，不要跟别人说。',
+          level: 'high'
+        },
+        {
+          name: '单独索要验证码',
+          text: '请把验证码发给我。',
+          level: 'high'
+        },
+        {
+          name: '客服理赔 + 加微信',
+          text: '客服说我的快递丢了，让我加微信理赔。',
+          level: 'medium'
+        },
+        {
+          name: '荐股 + 稳赚不赔',
+          text: '老师带单，稳赚不赔，进群领取牛股。',
+          level: 'medium'
+        },
+        {
+          name: '陌生链接领红包',
+          text: '点击链接领取免费红包 https://refund.example/claim',
+          level: 'medium'
+        },
+        {
+          name: '正常快递通知',
+          text: '您的快递已放在门口，请及时取。',
+          level: 'low'
+        },
+        {
+          name: '家人日常消息',
+          text: '妈，我今晚回家吃饭。',
+          level: 'low'
+        },
+        {
+          name: '银行卡密码忘了（正常求助）',
+          text: '我的银行卡密码忘了，明天去银行问问。',
+          level: 'low'
+        },
+        {
+          name: '正常验证码短信',
+          text: '【银行】您的验证码是 482913，5分钟内有效，请勿告诉任何人。',
+          level: 'low',
+          otp: true
+        },
+        {
+          name: '防骗提醒（不是诈骗话术）',
+          text: '96110提醒您：这是诈骗，千万不要转账，也不要给验证码。',
+          level: 'low'
+        },
+        {
+          name: '银行安全提醒（不要泄露验证码）',
+          text: '请勿把验证码告诉任何人，银行不会向您索要验证码。',
+          level: 'low'
+        },
+        {
+          name: '反过来冒充反诈中心',
+          text: '我是反诈中心的，你涉嫌洗钱，请配合调查，不要告诉家人。',
+          level: 'high'
+        },
+        {
+          name: '普通投资咨询',
+          text: '最近黄金价格怎么样？',
+          level: 'low'
+        },
+        {
+          name: '空内容',
+          text: '',
+          level: 'low'
+        }
+      ];
+
+      var passed = 0;
+      var lines = [];
+      cases.forEach(function (c) {
+        var result = window.AnxinEngine.analyze(c.text);
+        var ok = result.level === c.level && (c.otp === undefined || result.otp === c.otp);
+        if (ok) passed++;
+        lines.push((ok ? 'PASS' : 'FAIL') + '  ' + c.name +
+          '  → 期望 ' + c.level + (c.otp === undefined ? '' : '，验证码短信=' + c.otp) + '，实际 ' + result.level + '，验证码短信=' + result.otp +
+          '（分数 ' + result.score + '，信号 ' + result.signals.map(function (s) { return s.id; }).join(',') + '）');
+      });
+
+      var summary = document.getElementById('summary');
+      var allOk = passed === cases.length;
+      summary.textContent = (allOk ? 'PASS' : 'FAIL') + ' ' + passed + '/' + cases.length;
+      summary.className = 'summary ' + (allOk ? 'pass' : 'fail');
+      document.getElementById('out').textContent = lines.join('\n');
+      document.title = (allOk ? 'PASS' : 'FAIL') + ' ' + passed + '/' + cases.length;
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+{
+  "name": "安心 · 长辈防诈助手",
+  "short_name": "安心",
+  "description": "转账前先停三分钟：可疑消息体检、冷静计时、家庭暗号、一键求助。所有内容只保存在本机。",
+  "lang": "zh-CN",
+  "dir": "ltr",
+  "start_url": "./index.html#/home",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f4efe4",
+  "theme_color": "#0a5440",
+  "categories": ["lifestyle", "utilities", "education"],
+  "icons": [
+    {
+      "src": "assets/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}

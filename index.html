@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="zh-CN" data-size="normal">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f6f2e9">
+  <meta name="description" content="安心 · 长辈防诈助手：转账前先停三分钟。可疑消息体检、冷静计时、家庭暗号、一键求助。所有内容只保存在本机。">
+  <title>安心 · 长辈防诈助手</title>
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/icon.svg">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要内容</a>
+
+  <div class="app">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2.8 5 5.8v5.3c0 4.6 3 8.2 7 10.1 4-1.9 7-5.5 7-10.1V5.8l-7-3Z"/>
+            <path d="m9 11.6 2.1 2.1 3.9-3.9"/>
+          </svg>
+        </span>
+        <div class="brand-text">
+          <p class="brand-name">安心</p>
+          <p class="brand-sub">长辈防诈助手</p>
+        </div>
+        <button id="fontToggle" class="font-toggle" type="button" aria-label="放大字号">
+          <span class="font-toggle-aa" aria-hidden="true">Aa</span>
+          <span class="font-toggle-label">大字</span>
+        </button>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- ============ 查一查 ============ -->
+      <section class="screen" id="screen-home" data-screen="home" aria-labelledby="homeTitle">
+        <div class="hero">
+          <p class="eyebrow"><span class="pulse-dot" aria-hidden="true"></span> 给转账加一道刹车</p>
+          <h1 id="homeTitle">先别转，<br><em>让我帮您看看。</em></h1>
+          <p class="hero-sub">把短信、微信里对方说的话粘进来，看看有没有不对劲。</p>
+        </div>
+
+        <section class="card scanner" aria-labelledby="scannerTitle">
+          <div class="card-head">
+            <div>
+              <h2 id="scannerTitle">可疑消息体检</h2>
+              <p class="hint">对方发来的、电话里说的，都可以。</p>
+            </div>
+            <span class="local-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+              仅本机
+            </span>
+          </div>
+
+          <label class="sr-only" for="messageInput">粘贴可疑消息</label>
+          <textarea id="messageInput" maxlength="2000" rows="5" placeholder="例如：您好，我是市公安局的，您涉嫌洗钱，请把钱转到安全账户……"></textarea>
+
+          <div class="input-tools">
+            <button id="pasteBtn" class="tool-btn" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="3" width="8" height="4" rx="1.5"/><path d="M16 5h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2"/></svg>
+              粘贴
+            </button>
+            <button id="voiceBtn" class="tool-btn" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>
+              用嘴说
+            </button>
+            <span id="charCount" class="char-count" aria-hidden="true">0 字</span>
+          </div>
+
+          <div class="samples" id="samples" aria-label="试试这些例子"></div>
+
+          <button id="analyzeBtn" class="btn btn-primary btn-block" type="button">
+            帮我看看
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+          <p class="privacy-line">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+            文字只在这台手机上分析，不会上传
+          </p>
+        </section>
+
+        <div id="resultRegion" class="result-region" aria-live="polite"></div>
+
+        <section class="principles" aria-label="防骗四不">
+          <h2 class="sr-only">防骗四不</h2>
+          <div class="principle"><span class="principle-num">01</span><div><strong>不轻信</strong><p>陌生来电说的身份</p></div></div>
+          <div class="principle"><span class="principle-num">02</span><div><strong>不透露</strong><p>验证码、密码、卡号</p></div></div>
+          <div class="principle"><span class="principle-num">03</span><div><strong>不转账</strong><p>所谓“安全账户”</p></div></div>
+          <div class="principle"><span class="principle-num">04</span><div><strong>多核实</strong><p>挂断，打给家人或 96110</p></div></div>
+        </section>
+
+        <p class="fine-print">安心是公益科普演示，不是官方应用。遇到诈骗，请立刻拨打 <a href="tel:96110">96110</a> 或 <a href="tel:110">110</a>。</p>
+      </section>
+
+      <!-- ============ 冷静角 ============ -->
+      <section class="screen" id="screen-calm" data-screen="calm" aria-labelledby="calmTitle">
+        <div class="hero compact">
+          <p class="eyebrow">冷静角</p>
+          <h1 id="calmTitle">要转钱？<br><em>先等三分钟。</em></h1>
+          <p class="hero-sub">真正着急的事，不差这三分钟。骗子最怕您停下来。</p>
+        </div>
+
+        <section class="card" id="calmSetup" aria-labelledby="calmSetupTitle">
+          <h2 id="calmSetupTitle">对方说他是谁？</h2>
+          <p class="hint">选一个最像的，开始计时。</p>
+          <div class="choice-grid" id="whoChoices" role="group" aria-label="对方身份"></div>
+          <button id="startCalm" class="btn btn-primary btn-block" type="button" disabled>开始 3 分钟冷静</button>
+          <p class="fine-print center">计时不会扣钱，也不会通知任何人。</p>
+        </section>
+
+        <div id="calmPanel" aria-live="polite"></div>
+
+        <section class="card calm-tips" aria-labelledby="calmTipsTitle">
+          <h2 id="calmTipsTitle">这三分钟，请您做三件事</h2>
+          <ol class="numbered">
+            <li><strong>挂断电话</strong><span>不管对方说什么，先挂断。</span></li>
+            <li><strong>打给家人</strong><span>用您平时存的号码，不是对方给的号码。</span></li>
+            <li><strong>打 96110</strong><span>把对方说的话讲一遍，让警察帮您判断。</span></li>
+          </ol>
+        </section>
+      </section>
+
+      <!-- ============ 学一学 ============ -->
+      <section class="screen" id="screen-learn" data-screen="learn" aria-labelledby="learnTitle">
+        <div class="hero compact">
+          <p class="eyebrow">学一学</p>
+          <h1 id="learnTitle">骗术，<br><em>其实就那几招。</em></h1>
+          <p class="hero-sub">每天看一个，遇事心里有底。不会的字，可以点“听一听”。</p>
+        </div>
+
+        <section class="card quiz-card" id="quizCard" aria-labelledby="quizTitle"></section>
+
+        <div class="filter-wrap">
+          <div class="filters" id="caseFilters" role="group" aria-label="按类型筛选"></div>
+        </div>
+
+        <div class="case-list" id="caseList"></div>
+        <p class="fine-print">案例根据公开骗术套路整理，用于识骗防骗，不针对任何机构或个人。</p>
+      </section>
+
+      <!-- ============ 守护 ============ -->
+      <section class="screen" id="screen-guard" data-screen="guard" aria-labelledby="guardTitle">
+        <div class="hero compact">
+          <p class="eyebrow">守护</p>
+          <h1 id="guardTitle">把家人，<br><em>放在手边。</em></h1>
+          <p class="hero-sub">一个暗号、几个电话，就能挡住很多骗局。</p>
+        </div>
+
+        <section class="card code-card" id="codeCard" aria-labelledby="codeTitle"></section>
+
+        <section class="card" id="familyCard" aria-labelledby="familyTitle">
+          <div class="card-head">
+            <div>
+              <h2 id="familyTitle">家人电话</h2>
+              <p class="hint">遇到拿不准的事，先打给他们。</p>
+            </div>
+            <button id="addContactToggle" class="mini-btn" type="button" aria-expanded="false" aria-controls="contactForm">＋ 添加</button>
+          </div>
+          <ul class="contact-list" id="contactList"></ul>
+          <form id="contactForm" class="inline-form" hidden>
+            <label for="contactName">怎么称呼</label>
+            <input id="contactName" name="name" type="text" maxlength="12" autocomplete="off" placeholder="例如：女儿">
+            <label for="contactPhone">电话号码</label>
+            <input id="contactPhone" name="phone" type="tel" maxlength="20" inputmode="tel" autocomplete="off" placeholder="例如：13800138000">
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">保存</button>
+              <button type="button" class="btn btn-ghost" id="cancelContact">取消</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="card help-card" aria-labelledby="helpTitle">
+          <h2 id="helpTitle">一键求助</h2>
+          <p>生成一条写清楚的求助消息，发给家人或邻居。</p>
+          <p class="hint" id="helpHint">消息里会带上您最近一次检查发现的可疑点。</p>
+          <button id="helpBtn" class="btn btn-warm btn-block" type="button">生成求助消息</button>
+        </section>
+
+        <section class="card emergency" aria-labelledby="emergencyTitle">
+          <h2 id="emergencyTitle">紧急电话</h2>
+          <div class="emergency-grid">
+            <a class="emergency-btn" href="tel:96110">
+              <span class="emergency-num">96110</span>
+              <span>反诈专线</span>
+            </a>
+            <a class="emergency-btn danger" href="tel:110">
+              <span class="emergency-num">110</span>
+              <span>报警电话</span>
+            </a>
+          </div>
+          <p class="hint">银行卡客服电话，在卡背面。打过去就说：“我要紧急止付。”</p>
+        </section>
+
+        <details class="card steps-card">
+          <summary>
+            <span>已经把钱转出去了，怎么办？</span>
+            <span class="chev" aria-hidden="true">⌄</span>
+          </summary>
+          <ol class="numbered steps">
+            <li><strong>立刻打 110 或 96110</strong><span>说清楚：什么时候转的、转了多少钱、对方账号是多少。</span></li>
+            <li><strong>马上联系银行止付</strong><span>打银行卡背面的客服电话，申请紧急止付、冻结。</span></li>
+            <li><strong>保留所有证据</strong><span>聊天记录、转账凭证、对方账号，都不要删。</span></li>
+            <li><strong>告诉家人</strong><span>不要一个人扛。也別相信“能帮你追回”的人，那是二次诈骗。</span></li>
+          </ol>
+        </details>
+
+        <section class="card settings" aria-labelledby="settingsTitle">
+          <h2 id="settingsTitle">设置</h2>
+          <div class="setting-row">
+            <span>字号</span>
+            <div class="segmented" id="fontSegment" role="group" aria-label="字号">
+              <button type="button" data-size-option="normal">标准</button>
+              <button type="button" data-size-option="large">大</button>
+              <button type="button" data-size-option="xlarge">特大</button>
+            </div>
+          </div>
+          <div class="setting-row">
+            <label for="voiceToggle">显示“听一听”朗读按钮</label>
+            <input id="voiceToggle" type="checkbox" class="switch">
+          </div>
+          <div class="setting-row">
+            <span>本机数据</span>
+            <button id="clearDataBtn" class="mini-btn danger-text" type="button">清除</button>
+          </div>
+          <details class="legal">
+            <summary>隐私与说明</summary>
+            <p><strong>数据在哪：</strong>您输入的检查内容、家人电话、暗号、学习记录，都只保存在这台手机的浏览器里，不上传服务器。</p>
+            <p><strong>语音输入：</strong>由浏览器提供，部分浏览器可能联网识别；不方便时，请用文字输入。</p>
+            <p><strong>识别有限：</strong>本工具用固定规则做初步提醒，可能看错，也不能代替警察的判断。拿不准就打 96110。</p>
+            <p><strong>不是官方应用：</strong>“安心”是公益科普演示，与公安、银行、运营商均无隶属关系。</p>
+          </details>
+        </section>
+
+        <p class="fine-print center">安心 · 愿每一笔钱，都转得明明白白。</p>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="主要功能">
+      <div class="nav-inner">
+      <a href="#/home" data-nav="home" class="active">
+        <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m16.5 16.5 4 4"/></svg></span>
+        <span>查一查</span>
+      </a>
+      <a href="#/calm" data-nav="calm">
+        <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M10 9v6M14 9v6"/></svg></span>
+        <span>冷静角</span>
+      </a>
+      <a href="#/learn" data-nav="learn">
+        <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5v-16Z"/><path d="M4 18.5A2.5 2.5 0 0 1 6.5 16H20"/></svg></span>
+        <span>学一学</span>
+      </a>
+      <a href="#/guard" data-nav="guard">
+        <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7.5-4.7-7.5-10.2C4.5 7.8 6.7 6 9.2 6c1.2 0 2.2.6 2.8 1.5C12.6 6.6 13.6 6 14.8 6c2.5 0 4.7 1.8 4.7 4.8C19.5 16.3 12 21 12 21Z"/></svg></span>
+        <span>守护</span>
+      </a>
+      </div>
+    </nav>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <dialog id="shareDialog" class="share-dialog" aria-labelledby="shareDialogTitle">
+    <form method="dialog" class="dialog-head">
+      <h2 id="shareDialogTitle">发给家人</h2>
+      <button value="close" class="dialog-close" type="submit" aria-label="关闭">×</button>
+    </form>
+    <p class="hint">点“复制文字”，发到微信或短信；也可以长按文字复制。</p>
+    <label class="sr-only" for="shareText">求助内容</label>
+    <textarea id="shareText" rows="8" readonly></textarea>
+    <div class="dialog-actions">
+      <button id="copyShareBtn" class="btn btn-primary" type="button">复制文字</button>
+      <button id="nativeShareBtn" class="btn btn-ghost" type="button" hidden>系统分享</button>
+      <button id="callFamilyBtn" class="btn btn-ghost" type="button" hidden>打给家人</button>
+    </div>
+  </dialog>
+
+  <script src="js/data.js"></script>
+  <script src="js/engine.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

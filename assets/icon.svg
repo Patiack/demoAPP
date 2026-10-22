@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="安心标志">
+  <rect width="512" height="512" rx="112" fill="#0a5440"/>
+  <circle cx="256" cy="236" r="158" fill="#0f6b50" opacity=".55"/>
+  <path d="M256 92 158 133v99c0 78 52 140 98 168 46-28 98-90 98-168v-99l-98-41Z" fill="#fffdf8"/>
+  <path d="m210 232 34 34 62-68" fill="none" stroke="#0f6b50" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="256" cy="404" r="14" fill="#c9973f"/>
+</svg>
